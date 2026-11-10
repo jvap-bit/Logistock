@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>LogiStock Pro - Leitor do Entregador</title>
+<style>
+  :root {
+    --navy: #0A1628;
+    --navy2: #162040;
+    --navy3: #1E2D4A;
+    --yellow: #F5C518;
+    --yellow2: #FFD740;
+    --border: #1E3A5F;
+    --text: #E6EDF3;
+    --gray: #8896AB;
+    --green: #2ecc71;
+    --red: #e74c3c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+  }
+  header {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  header h1 {
+    color: var(--yellow);
+    font-size: 22px;
+    letter-spacing: 1px;
+  }
+  header p {
+    color: var(--gray);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  #video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: #000;
+  }
+  #video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #scan-box {
+    position: absolute;
+    top: 15%; left: 15%; right: 15%; bottom: 15%;
+    border: 3px solid var(--yellow);
+    border-radius: 12px;
+    box-shadow: 0 0 0 2000px rgba(10,22,40,0.35);
+  }
+  #status-bar {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--gray);
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  #resultado {
+    padding: 18px;
+    display: none;
+  }
+  #resultado.mostrar { display: block; }
+  #resultado h2 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  #resultado h2.ok { color: var(--green); }
+  #resultado h2.erro { color: var(--red); }
+  .linha {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--navy3);
+    font-size: 14px;
+  }
+  .linha:last-child { border-bottom: none; }
+  .linha .rotulo { color: var(--gray); flex-shrink: 0; }
+  .linha .valor { text-align: right; font-weight: 700; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--yellow);
+    color: var(--navy);
+  }
+  button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    border: none;
+    border-radius: 50px;
+    background: var(--yellow);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  button:active { background: var(--yellow2); }
+  #erro-camera {
+    display: none;
+    padding: 20px;
+    text-align: center;
+    color: var(--red);
+    font-size: 13px;
+  }
+</style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/firebase-db.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>📷 LEITOR DE ENTREGA</h1>
+  <p>Aponte a câmera para o QR Code da nota fiscal</p>
+</header>
+
+<div class="card">
+  <div id="video-wrap">
+    <video id="video" playsinline autoplay muted></video>
+    <div id="scan-box"></div>
+  </div>
+  <div id="status-bar">Iniciando câmera...</div>
+  <div id="erro-camera">
+    Não foi possível acessar a câmera. Verifique se você deu permissão de câmera
+    para o navegador e se está acessando por <b>https://</b> ou pela rede local correta.
+  </div>
+  <div id="resultado"></div>
+</div>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js"></script>
+<script>
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
+const statusBar = document.getElementById('status-bar');
+const resultadoDiv = document.getElementById('resultado');
+const erroCameraDiv = document.getElementById('erro-camera');
+const videoWrap = document.getElementById('video-wrap');
+
+let escaneando = true;
+let streamAtual = null;
+
+function extrairNumeroOP(texto) {
+  const m = texto.match(/OP:\s*(\S+)/);
+  return m ? m[1].trim() : null;
+}
+
+async function iniciarCamera() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "environment" }
+    });
+    streamAtual = stream;
+    video.srcObject = stream;
+    await video.play();
+    statusBar.textContent = "Procurando QR Code...";
+    requestAnimationFrame(tick);
+  } catch (e) {
+    videoWrap.style.display = 'none';
+    statusBar.style.display = 'none';
+    erroCameraDiv.style.display = 'block';
+  }
+}
+
+function tick() {
+  if (!escaneando) return;
+
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const codigo = jsQR(imageData.data, imageData.width, imageData.height);
+
+    if (codigo && codigo.data) {
+      processarLeitura(codigo.data);
+      return;
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+async function processarLeitura(texto) {
+  escaneando = false;
+  statusBar.textContent = "QR Code lido! Consultando pedido...";
+
+  const numeroOP = extrairNumeroOP(texto);
+  if (!numeroOP) {
+    mostrarErro("QR Code lido, mas não parece ser de um pedido do LogiStock Pro.", texto);
+    return;
+  }
+
+  try {
+    let dados = await LogiDB.buscarPedido(numeroOP);
+    if (!dados.encontrado) {
+      try { // fallback: servidor Python local (se estiver rodando)
+        const resp = await fetch(`/api/pedido/${encodeURIComponent(numeroOP)}`);
+        dados = await resp.json();
+      } catch (_) {}
+    }
+    LogiDB.registrarLeitura(numeroOP, !!dados.encontrado).catch(console.error);
+
+    if (dados.encontrado) {
+      mostrarPedido(dados);
+    } else {
+      mostrarErro(`O pedido OP ${numeroOP} não foi encontrado no sistema. Confira se este é o pacote correto antes de entregar.`);
+    }
+  } catch (e) {
+    mostrarErro("Não foi possível consultar o servidor. Verifique se o celular está na mesma rede Wi-Fi do computador.");
+  }
+}
+
+function mostrarPedido(d) {
+  statusBar.textContent = "";
+  document.getElementById('video-wrap').style.display = 'none';
+  resultadoDiv.classList.add('mostrar');
+  resultadoDiv.innerHTML = `
+    <h2 class="ok">✔ PEDIDO ENCONTRADO</h2>
+    <div class="linha"><span class="rotulo">OP</span><span class="valor">${d.numero}</span></div>
+    <div class="linha"><span class="rotulo">Cliente</span><span class="valor">${d.cliente}</span></div>
+    <div class="linha"><span class="rotulo">Produto</span><span class="valor">${d.produto}</span></div>
+    <div class="linha"><span class="rotulo">Quantidade</span><span class="valor">${d.quantidade}</span></div>
+    <div class="linha"><span class="rotulo">Endereço</span><span class="valor">${d.endereco}</span></div>
+    <div class="linha"><span class="rotulo">CEP</span><span class="valor">${d.cep}</span></div>
+    <div class="linha"><span class="rotulo">Status</span><span class="valor"><span class="badge">${d.status}</span></span></div>
+    <button onclick="location.reload()">🔄 LER OUTRO QR CODE</button>
+  `;
+}
+
+function mostrarErro(mensagem, textoOriginal) {
+  statusBar.textContent = "";
+  document.getElementById('video-wrap').style.display = 'none';
+  resultadoDiv.classList.add('mostrar');
+  resultadoDiv.innerHTML = `
+    <h2 class="erro">⚠ ATENÇÃO</h2>
+    <p style="font-size:14px; line-height:1.5; color: var(--text);">${mensagem}</p>
+    <button onclick="location.reload()">🔄 TENTAR NOVAMENTE</button>
+  `;
+}
+
+iniciarCamera();
+
+window.addEventListener('beforeunload', () => {
+  if (streamAtual) streamAtual.getTracks().forEach(t => t.stop());
+});
+</script>
+
+</body>
+</html>

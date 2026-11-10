@@ -1,0 +1,63 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "usuarios": {
+      "$uid": {
+        ".read": true,
+        ".write": true,
+        ".validate": "newData.hasChildren(['nome','email','matricula'])",
+        "nome": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[^@\\s]+@[^@\\s]+$/)"
+        },
+        "foto": {
+          ".validate": "newData.val() === null || (newData.isString() && newData.val().length < 400000)"
+        }
+      }
+    },
+    "credenciais": { "$uid": { ".read": true, ".write": true } },
+    "emails": {
+      "$email": {
+        ".read": true,
+        ".write": "!data.exists() || !newData.exists()"
+      }
+    },
+    "meta": {
+      "contadorMatricula": {
+        ".read": true,
+        ".write": "newData.isNumber() && newData.val() > (data.val() || 0)"
+      }
+    },
+
+    "avaliacoes": {
+      ".read": false,
+      "$id": {
+        ".write": "!data.exists()",
+        ".validate": "newData.child('nota').isNumber() && newData.child('nota').val() >= 1 && newData.child('nota').val() <= 5"
+      }
+    },
+    "propostas": { ".read": false, "$id": { ".write": "!data.exists()" } },
+    "contatos": { ".read": false, "$id": { ".write": "!data.exists()" } },
+    "consultasRastreio": {
+      ".read": false,
+      "$id": { ".write": "!data.exists()" }
+    },
+    "cotacoesFrete": { ".read": false, "$id": { ".write": "!data.exists()" } },
+    "leituras": { ".read": false, "$id": { ".write": "!data.exists()" } },
+
+    "chats": {
+      "$dono": {
+        ".read": true,
+        ".indexOn": ["criadoEm"],
+        "$id": { ".write": "!data.exists()" }
+      }
+    },
+    "pedidos": {
+      "$op": { ".read": true, ".write": false }
+    }
+  }
+}

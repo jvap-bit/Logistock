@@ -1,0 +1,252 @@
+.page-hero {
+  background: linear-gradient(135deg, var(--navy), #162040);
+  padding: 60px 24px;
+  text-align: center;
+  border-bottom: 3px solid var(--yellow);
+}
+.page-hero h2 { 
+    font-family:'Bebas Neue',sans-serif;
+    font-size:50px;
+    letter-spacing:3px;
+    color:var(--white); 
+}
+
+.page-hero h2 span { 
+    color:var(--yellow); 
+}
+
+.page-hero p {
+    color:var(--gray2);
+    margin-top:10px;
+    font-size:16px; 
+}
+
+section { 
+    max-width:960px;
+    margin:0 auto;
+    padding:50px 20px; 
+}
+
+.sec-titulo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:34px;
+  letter-spacing:2px;
+  color:var(--navy);
+  margin-bottom:24px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.sec-titulo::after { 
+    content:'';
+    flex:1;
+    height:3px;
+    background:linear-gradient(90deg,var(--yellow),transparent); 
+}
+
+.historia-texto p { 
+    color:#4A5568;
+    font-size:16px;
+    line-height:1.8;
+    margin-bottom:14px; 
+}
+
+.cards { 
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px; 
+}
+
+.card {
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow:0 2px 12px rgba(10,22,40,0.07);
+  border-top:4px solid var(--yellow);
+  transition:var(--transition);
+}
+
+.card:hover { 
+    transform:translateY(-4px);
+    box-shadow:var(--shadow); 
+}
+
+.card h3 { 
+    font-size:24px;
+    font-family:'Bebas Neue',sans-serif;
+    letter-spacing:1px;
+    color:var(--navy);
+    margin-bottom:8px; 
+}
+
+.card p { 
+    font-size:14px;
+    color:var(--gray2);
+    line-height:1.6; 
+}
+
+.mvv-grid { 
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px; 
+}
+
+.mvv-card {
+  background:var(--navy);
+  border-radius:var(--radius);
+  padding:30px;
+  position:relative;
+  overflow:hidden;
+}
+
+.mvv-card::before {
+  content:'';
+  position:absolute;
+  top:-20px;
+  right:-20px;
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:rgba(245,197,24,0.1);
+}
+
+.mvv-card h3 { 
+    font-family:'Bebas Neue',sans-serif;
+    font-size:24px;
+    color:var(--yellow);
+    letter-spacing:1px;
+    margin-bottom:10px; 
+}
+
+.mvv-card p { 
+    color:#B8C5D6;
+    font-size:14px;
+    line-height:1.6; 
+}
+
+.parcerias { 
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px; 
+}
+
+.parceiro {
+  background:var(--white);
+  border:2px solid #E0E8F0;
+  padding:14px 24px;
+  border-radius:10px;
+  font-weight:700;
+  font-size:14px;
+  color:var(--navy);
+  transition:var(--transition);
+}
+
+.parceiro:hover { 
+    border-color:var(--yellow);
+    background:rgba(245,197,24,0.05); 
+}
+
+.secao-fundo { 
+    background:var(--navy2); 
+}
+
+.secao-fundo .sec-titulo { 
+    color:var(--yellow); 
+}
+
+.secao-fundo .sec-titulo::after { 
+    background:linear-gradient(90deg,var(--yellow),transparent); 
+}
+
+.contato-container { 
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px; 
+}
+
+@media(max-width:640px){ .contato-container{grid-template-columns:1fr;} }
+
+.mapa-box { 
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow); 
+}
+
+.mapa-box iframe { 
+    width:100%;
+    height:280px;
+    border:none;
+    display:block; 
+}
+
+.form-box { 
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:28px;
+    box-shadow:var(--shadow); 
+}
+
+.form-box h3 { 
+    font-size:20px;
+    font-weight:800;
+    color:var(--navy);
+    margin-bottom:16px; 
+}
+
+.info-contato p { 
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    color:var(--gray2);
+    margin-bottom:8px; 
+}
+
+.info-contato i { 
+    color:var(--yellow);
+    width:18px; 
+}
+
+.contato-form { 
+    margin-top:16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px; 
+}
+
+.contato-form input, .contato-form textarea {
+  padding:12px 14px;
+  border:2px solid #E0E8F0;
+  border-radius:10px;
+  font-family:'Nunito',sans-serif;
+  font-size:14px;
+  transition:var(--transition);
+}
+
+.contato-form input:focus, .contato-form textarea:focus { 
+    outline:none;
+    border-color:var(--yellow); 
+}
+
+.contato-form textarea { 
+    height:90px;
+    resize:vertical; 
+}
+
+.btn-enviar {
+  background:var(--navy);
+  color:var(--yellow);
+  font-family:'Nunito',sans-serif;
+  font-weight:800;
+  font-size:15px;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition:var(--transition);
+}
+.btn-enviar:hover { 
+    background:var(--yellow);
+    color:var(--navy); 
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro | LogiStock</title>
+  <link rel="icon" href="../assets/IMG/logoCanto.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/shared.css">
+  <link rel="stylesheet" href="../assets/css/cadastro.css">
+  <script>
+    (function() {
+      if (localStorage.getItem('logistockTema') === 'dark') {
+        document.documentElement.classList.add('dark-mode-early');
+      }
+    })();
+  
+//NOME DO PERFIL
+(function() {
+  const nome = localStorage.getItem('usuarioLogado');
+  if (nome) {
+    document.querySelectorAll('.nome-perfil-header').forEach(el => el.textContent = nome);
+    document.querySelectorAll('.nome-perfil-menu').forEach(el => el.textContent = nome);
+  }
+})();
+
+</script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/firebase-db.js"></script>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <img src=" ../assets/IMG/logoCanto.png" alt="LogiStock">
+      <div><h1>LogiStock</h1><span>Indústria Logística</span></div>
+    </div>
+    <h2>Criar Conta</h2>
+    <p>Cadastre-se gratuitamente</p>
+
+    
+    <form id="formCadastro">
+      <div class="input-group"><label>Nome Completo</label><div class="iw"><i class="fa-solid fa-user"></i><input type="text" id="cad-nome" placeholder="Seu nome" required></div></div>
+      <div class="input-group"><label>E-mail</label><div class="iw"><i class="fa-solid fa-envelope"></i><input type="email" id="cad-email" placeholder="seu@email.com" required></div></div>
+      <div class="input-group"><label>Senha</label><div class="iw"><i class="fa-solid fa-lock"></i><input type="password" id="cad-senha" placeholder="Mínimo 8 caracteres" minlength="8" required></div></div>
+      <div class="input-group"><label>Confirmar Senha</label><div class="iw"><i class="fa-solid fa-lock"></i><input type="password" id="cad-senha2" placeholder="Repita a senha" required></div></div>
+      <button type="submit" class="btn"><i class="fa-solid fa-user-plus"></i> Criar Conta</button>
+    </form>
+    <div class="foot">Já tem uma conta? <a href='../../index.html'>Faça login</a></div>
+  </div>
+
+  <script>
+    document.getElementById('formCadastro').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const nome = document.getElementById('cad-nome').value;
+      const email = document.getElementById('cad-email').value;
+      const senha = document.getElementById('cad-senha').value;
+      const senha2 = document.getElementById('cad-senha2').value;
+      if (senha !== senha2) { alert('As senhas não conferem.'); return; }
+      const btn = this.querySelector('.btn');
+      const html = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Criando...';
+      try {
+        await LogiDB.cadastrar({ nome, email, senha });
+        alert('Conta criada com sucesso! Faça login para continuar.');
+        window.location.href = '../../index.html';
+      } catch (err) {
+        alert(err.message || 'Não foi possível criar a conta.');
+        btn.disabled = false;
+        btn.innerHTML = html;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!-- ── CHATBOT LOGISTOCK ── -->
+<div class="chatbot-container minimized" id="chatbot-container" onclick="if(this.classList.contains('minimized')) toggleChatBot()">
+
+  <div class="chatbot-header" id="chatbot-header">
+
+    <!-- Ícone mini — idêntico ao app (rect + "IA") -->
+    <svg class="chatbot-icon-mini" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="white" stroke-width="2">
+      <rect x="4" y="4" width="24" height="24" rx="4" ry="4"/>
+      <text x="16" y="21" font-size="12" font-weight="bold" text-anchor="middle" fill="white" stroke="none" font-family="Arial">IA</text>
+    </svg>
+
+    <!-- Título (estado aberto) -->
+    <div class="chatbot-title chatbot-title-text">
+      <i class="fa-solid fa-robot" style="color:var(--cb-cyan)"></i>
+      Assistente LogiStock
+      <span class="voice-status" id="voice-status"></span>
+    </div>
+    <div class="chatbot-header-actions">
+      <button onclick="event.stopPropagation(); toggleChatBot()" title="Minimizar">
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensagens -->
+  <div class="chatbot-messages" id="chatbot-messages">
+    <div class="message-group assistant-msg">
+      <div class="message-bubble">
+        <p>Olá! 👋 Sou o assistente da <strong>LogiStock</strong>. Posso ajudar com:</p>
+        <ul style="margin-top:8px;font-size:13px;line-height:1.8">
+          <li>💰 Planos e preços</li>
+          <li>⚙️ Funcionalidades do sistema</li>
+          <li>🔗 Integrações disponíveis</li>
+          <li>🎤 Comandos por <strong>voz</strong></li>
+        </ul>
+        <p style="margin-top:8px;font-size:12px;color:#64748b">Diga "ajuda" para ver todos os comandos.</p>
+      </div>
+      <span class="message-time">agora</span>
+    </div>
+  </div>
+
+  <!-- Sugestões rápidas -->
+  <div class="chatbot-suggestions">
+    <button class="suggestion-chip" onclick="useSuggestion('Planos e preços')">💰 Planos</button>
+    <button class="suggestion-chip" onclick="useSuggestion('Funcionalidades')">⚙️ Funcionalidades</button>
+    <button class="suggestion-chip" onclick="useSuggestion('Contato')">📞 Contato</button>
+    <button class="suggestion-chip" onclick="useSuggestion('FAQ')">❓ FAQ</button>
+  </div>
+
+  <!-- Input com microfone -->
+  <div class="chatbot-input-area">
+    <button class="voice-btn" id="voice-btn" onclick="toggleVoiceRecognition()" title="Clique para falar">
+      <i class="fa-solid fa-microphone" id="mic-icon"></i>
+    </button>
+    <input
+      type="text"
+      id="chatbot-input"
+      class="chatbot-input"
+      placeholder="Digite ou use o microfone..."
+      onkeypress="if(event.key==='Enter') sendChatMessage()"
+    >
+    <button class="chatbot-send-btn" onclick="sendChatMessage()" id="chatbot-send">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </div>
+
+  <!-- Footer com toggle de voz -->
+  <div class="chatbot-footer">
+    <label class="voice-toggle">
+      <input type="checkbox" id="voice-response-toggle" checked>
+      <span>Resposta por voz</span>
+    </label>
+    <small>LogiStock IA</small>
+  </div>
+
+</div>

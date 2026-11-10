@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogiStock Pro — Documentação Técnica v2.4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root {
+  --navy:    #0A1628;
+  --navy2:   #162040;
+  --navy3:   #1E2D4A;
+  --yellow:  #F5C518;
+  --yellow2: #FFD740;
+  --blue:    #3B8BD4;
+  --green:   #2ecc71;
+  --red:     #e74c3c;
+  --orange:  #F39C12;
+  --gray:    #8896AB;
+  --light:   #E6EDF3;
+  --border:  #1E3A5F;
+  --radius:  12px;
+  --trans:   0.25s cubic-bezier(.4,0,.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--navy);
+  color: var(--light);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 260px;
+  height: 100vh;
+  background: var(--navy2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 100;
+  transition: transform var(--trans);
+}
+
+.sidebar-logo {
+  padding: 24px 20px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-logo h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 3px;
+  color: var(--yellow);
+  line-height: 1;
+}
+.sidebar-logo span {
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.sidebar-section {
+  padding: 20px 14px 0;
+}
+.sidebar-section-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--gray);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0 8px 8px;
+  border-bottom: 1px solid rgba(245,197,24,0.08);
+  margin-bottom: 4px;
+}
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #B8C5D6;
+  font-size: 13px;
+  font-weight: 600;
+  transition: var(--trans);
+  margin-bottom: 2px;
+}
+.sidebar-link:hover { background: rgba(245,197,24,0.08); color: var(--yellow); }
+.sidebar-link.active { background: rgba(245,197,24,0.12); color: var(--yellow); }
+.sidebar-link .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gray);
+  flex-shrink: 0;
+  transition: var(--trans);
+}
+.sidebar-link:hover .dot { background: var(--yellow); }
+
+/* ── MAIN ── */
+#main {
+  margin-left: 260px;
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ── */
+#topbar {
+  position: sticky;
+  top: 0;
+  background: rgba(10,22,40,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 48px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 50;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.badge-yellow { background: rgba(245,197,24,0.15); color: var(--yellow); border: 1px solid rgba(245,197,24,0.3); }
+.badge-green  { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+.badge-blue   { background: rgba(59,139,212,0.15); color: var(--blue); border: 1px solid rgba(59,139,212,0.3); }
+.badge-orange { background: rgba(243,156,18,0.15); color: var(--orange); border: 1px solid rgba(243,156,18,0.3); }
+.badge-red    { background: rgba(231,76,60,0.15); color: var(--red); border: 1px solid rgba(231,76,60,0.3); }
+
+/* ── SECTIONS ── */
+.section {
+  padding: 60px 48px;
+  border-bottom: 1px solid var(--border);
+  max-width: 900px;
+}
+.section:last-child { border-bottom: none; }
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 10px;
+}
+.section h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  letter-spacing: 2px;
+  color: var(--light);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.section h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 1.5px;
+  color: var(--yellow);
+  margin: 36px 0 14px;
+}
+.section p {
+  color: var(--gray);
+  line-height: 1.75;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+.section p:last-child { margin-bottom: 0; }
+
+/* ── HERO SECTION ── */
+#hero {
+  padding: 80px 48px 64px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(245,197,24,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,197,24,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.hero-content { position: relative; }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 18px;
+  padding: 6px 14px;
+  border: 1px solid rgba(245,197,24,0.25);
+  border-radius: 20px;
+  background: rgba(245,197,24,0.07);
+}
+#hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  letter-spacing: 3px;
+  color: var(--light);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+#hero h1 span { color: var(--yellow); }
+#hero p {
+  color: var(--gray);
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 580px;
+  margin-bottom: 32px;
+}
+.hero-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ── TECH CARDS ── */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+.tech-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: var(--trans);
+}
+.tech-card:hover {
+  border-color: rgba(245,197,24,0.3);
+  transform: translateY(-2px);
+}
+.tech-card .tc-icon {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+.tech-card .tc-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--yellow);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.tech-card .tc-desc {
+  font-size: 12px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+.tech-card .tc-file {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--blue);
+  margin-top: 10px;
+  padding: 4px 8px;
+  background: rgba(59,139,212,0.1);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* ── STAT BAR ── */
+.stat-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 32px 0;
+}
+.stat-item {
+  background: var(--navy2);
+  padding: 22px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 1px;
+  color: var(--yellow);
+  display: block;
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ── CODE BLOCKS ── */
+.code-block {
+  background: #060d1a;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 20px 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.code-header {
+  background: var(--navy3);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.code-header span { font-size: 12px; color: var(--gray); font-weight: 600; }
+.code-header .dots { display: flex; gap: 5px; }
+.code-header .dot-r { width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; }
+.code-header .dot-y { width: 10px; height: 10px; border-radius: 50%; background: #f39c12; }
+.code-header .dot-g { width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; }
+.code-body {
+  padding: 20px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #c9d1d9;
+  overflow-x: auto;
+}
+.code-body .kw  { color: #ff7b72; }
+.code-body .fn  { color: #d2a8ff; }
+.code-body .st  { color: #a5d6ff; }
+.code-body .cm  { color: #8b949e; font-style: italic; }
+.code-body .nu  { color: #79c0ff; }
+.code-body .cl  { color: #ffa657; }
+
+/* ── TABLE ── */
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 13px;
+}
+.doc-table th {
+  background: var(--navy3);
+  color: var(--yellow);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.doc-table td {
+  padding: 11px 16px;
+  color: var(--light);
+  border-bottom: 1px solid rgba(30,58,95,0.5);
+  vertical-align: top;
+}
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table tr:hover td { background: rgba(30,45,74,0.5); }
+.doc-table td code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--blue);
+  background: rgba(59,139,212,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.doc-table td .status-ok  { color: var(--green); font-weight: 700; }
+.doc-table td .status-no  { color: var(--red); font-weight: 700; }
+.doc-table td .status-wip { color: var(--orange); font-weight: 700; }
+
+/* ── FLOW DIAGRAM ── */
+.flow-diagram {
+  margin: 28px 0;
+  position: relative;
+}
+
+/* ── MODULE CARDS ── */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+.module-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  transition: var(--trans);
+  position: relative;
+  overflow: hidden;
+}
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+}
+.module-card.ok::before   { background: var(--green); }
+.module-card.wip::before  { background: var(--orange); }
+.module-card.todo::before { background: var(--border); }
+.module-card:hover { border-color: rgba(245,197,24,0.25); transform: translateY(-2px); }
+.module-card h4 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--light);
+  margin-bottom: 6px;
+}
+.module-card .mc-path {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+.module-card p { font-size: 13px; color: var(--gray); line-height: 1.55; }
+
+/* ── CALLOUT ── */
+.callout {
+  display: flex;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  margin: 20px 0;
+  align-items: flex-start;
+}
+.callout-yellow { background: rgba(245,197,24,0.08); border: 1px solid rgba(245,197,24,0.25); }
+.callout-blue   { background: rgba(59,139,212,0.08); border: 1px solid rgba(59,139,212,0.25); }
+.callout-green  { background: rgba(46,204,113,0.08); border: 1px solid rgba(46,204,113,0.25); }
+.callout-red    { background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.25); }
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { font-size: 13px; color: var(--gray); line-height: 1.6; }
+.callout-body strong { color: var(--light); }
+
+/* ── STEP LIST ── */
+.step-list { list-style: none; margin: 20px 0; }
+.step-list li {
+  display: flex;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(30,58,95,0.4);
+}
+.step-list li:last-child { border-bottom: none; }
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(245,197,24,0.12);
+  border: 1px solid rgba(245,197,24,0.3);
+  color: var(--yellow);
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-text { font-size: 14px; color: var(--gray); line-height: 1.65; }
+.step-text strong { color: var(--light); }
+.step-text code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--blue);
+  background: rgba(59,139,212,0.1);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ── PROFILE CARDS ── */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+.profile-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  transition: var(--trans);
+}
+.profile-card:hover { border-color: rgba(245,197,24,0.3); }
+.profile-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--yellow);
+  background: rgba(245,197,24,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 12px;
+}
+.profile-card h4 { font-size: 14px; font-weight: 800; color: var(--light); margin-bottom: 6px; }
+.profile-card p { font-size: 12px; color: var(--gray); line-height: 1.5; }
+.profile-perm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.perm-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.perm-full  { background: rgba(245,197,24,0.15); color: var(--yellow); }
+.perm-read  { background: rgba(59,139,212,0.15); color: var(--blue); }
+.perm-view  { background: rgba(46,204,113,0.15); color: var(--green); }
+
+/* ── KANBAN PREVIEW ── */
+.kanban-preview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 24px 0;
+}
+.kanban-col {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.kanban-col-header {
+  background: var(--navy);
+  padding: 10px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--yellow);
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.kanban-card {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 8px;
+  font-size: 12px;
+}
+.kanban-card .kc-op { color: var(--yellow); font-weight: 800; margin-bottom: 3px; }
+.kanban-card .kc-info { color: var(--gray); }
+.kanban-card .kc-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+/* ── DB SCHEMA ── */
+.schema-table {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.schema-header {
+  background: var(--navy3);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--yellow);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.schema-field {
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(30,58,95,0.5);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.schema-field:last-child { border-bottom: none; }
+.schema-field .sf-name { color: var(--light); min-width: 120px; }
+.schema-field .sf-type { color: var(--blue); min-width: 80px; }
+.schema-field .sf-note { color: var(--gray); font-size: 11px; }
+.schema-field .pk { background: rgba(245,197,24,0.2); color: var(--yellow); font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+.schema-field .fk { background: rgba(59,139,212,0.2); color: var(--blue); font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+
+/* ── PENDING ITEMS ── */
+.pending-list { list-style: none; margin: 20px 0; }
+.pending-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  border: 1px solid transparent;
+  transition: var(--trans);
+  font-size: 14px;
+}
+.pending-item:hover { border-color: var(--border); background: rgba(22,32,64,0.5); }
+.pending-item .pi-icon { font-size: 16px; }
+.pending-item .pi-text { flex: 1; color: var(--light); }
+.pending-item .pi-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
+.pi-alta   { background: rgba(231,76,60,0.15); color: var(--red); }
+.pi-media  { background: rgba(243,156,18,0.15); color: var(--orange); }
+.pi-baixa  { background: rgba(59,139,212,0.15); color: var(--blue); }
+
+/* ── WEB PAGES ── */
+.pages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.page-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: var(--trans);
+}
+.page-card:hover { border-color: rgba(245,197,24,0.2); transform: translateY(-1px); }
+.page-icon { font-size: 20px; margin-top: 2px; }
+.page-card h4 { font-size: 13px; font-weight: 800; color: var(--light); margin-bottom: 4px; }
+.page-card .page-path {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+.page-card p { font-size: 12px; color: var(--gray); line-height: 1.5; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  #sidebar { transform: translateX(-100%); }
+  #main { margin-left: 0; }
+  .section { padding: 40px 24px; }
+  #hero { padding: 48px 24px; }
+  #hero h1 { font-size: 48px; }
+  .stat-bar { grid-template-columns: repeat(2, 1fr); }
+  .kanban-preview { grid-template-columns: repeat(2, 1fr); }
+}
+
+#menu-toggle {
+  display: none;
+  position: fixed;
+  bottom: 24px; right: 24px;
+  width: 48px; height: 48px;
+  background: var(--yellow);
+  color: var(--navy);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(245,197,24,0.4);
+}
+@media (max-width: 900px) {
+  #menu-toggle { display: flex; }
+  #sidebar.open { transform: translateX(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <h1>LogiStock Pro</h1>
+    <span>Documentação Técnica v2.4</span>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Visão Geral</div>
+    <a href="#intro"     class="sidebar-link active"><span class="dot"></span>Introdução</a>
+    <a href="#tecnologias" class="sidebar-link"><span class="dot"></span>Tecnologias</a>
+    <a href="#estrutura"  class="sidebar-link"><span class="dot"></span>Estrutura de Pastas</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Arquitetura</div>
+    <a href="#auth"      class="sidebar-link"><span class="dot"></span>Autenticação</a>
+    <a href="#perfis"    class="sidebar-link"><span class="dot"></span>Perfis de Acesso</a>
+    <a href="#banco"     class="sidebar-link"><span class="dot"></span>Banco de Dados</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">App Desktop</div>
+    <a href="#kanban"    class="sidebar-link"><span class="dot"></span>Painel Kanban</a>
+    <a href="#cadastro"  class="sidebar-link"><span class="dot"></span>Cadastro de Ordens</a>
+    <a href="#entregador" class="sidebar-link"><span class="dot"></span>Painel do Entregador</a>
+    <a href="#ferramentas" class="sidebar-link"><span class="dot"></span>Ferramentas</a>
+    <a href="#exports"   class="sidebar-link"><span class="dot"></span>Exportações</a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Site Público</div>
+    <a href="#web-pages" class="sidebar-link"><span class="dot"></span>Páginas Web</a>
+    <a href="#chatbot"   class="sidebar-link"><span class="dot"></span>Chatbot IA</a>
+    <a href="#tema"      class="sidebar-link"><span class="dot"></span>Sistema de Tema</a>
+  </div>
+
+  <div class="sidebar-section" style="padding-bottom: 32px;">
+    <div class="sidebar-section-title">Desenvolvimento</div>
+    <a href="#design"    class="sidebar-link"><span class="dot"></span>Design System</a>
+    <a href="#pendencias" class="sidebar-link"><span class="dot"></span>Pendências</a>
+  </div>
+</nav>
+
+<!-- TOGGLE MOBILE -->
+<button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--yellow)">LogiStock Pro</span>
+    <span class="badge badge-yellow">v2.4</span>
+    <span class="badge badge-blue">Python Desktop</span>
+    <span class="badge badge-green">HTML/CSS/JS Web</span>
+    <span style="margin-left:auto;font-size:12px;color:var(--gray)">Última atualização: Junho 2025</span>
+  </div>
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">⚡ Sistema de Gestão Industrial</div>
+      <h1>LogiStock<br><span>Pro</span></h1>
+      <p>Sistema completo de gestão logística e industrial. Dois ambientes integrados: um site institucional público e um app desktop Python com painel Kanban, rastreamento de pedidos, exportação e mais.</p>
+      <div class="hero-tags">
+        <span class="badge badge-yellow">SQLite</span>
+        <span class="badge badge-blue">CustomTkinter</span>
+        <span class="badge badge-green">Pandas + OpenPyXL</span>
+        <span class="badge badge-orange">ReportLab PDF</span>
+        <span class="badge badge-red">ViaCEP API</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div id="intro" class="section">
+    <div class="section-eyebrow">Visão Geral</div>
+    <h2>Introdução</h2>
+    <p>O LogiStock Pro é um sistema de gestão logística dividido em dois ambientes: um site público institucional (HTML/CSS/JS) com páginas de apresentação, rastreamento de pedidos e chatbot IA integrado; e um aplicativo desktop em Python com interface CustomTkinter que gerencia ordens de produção via painel Kanban, exportação de relatórios e fluxo de entrega.</p>
+
+    <div class="stat-bar">
+      <div class="stat-item"><span class="stat-num">2</span><span class="stat-label">Ambientes</span></div>
+      <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">Perfis de Acesso</span></div>
+      <div class="stat-item"><span class="stat-num">6</span><span class="stat-label">Páginas Web</span></div>
+      <div class="stat-item"><span class="stat-num">8</span><span class="stat-label">Módulos Python</span></div>
+    </div>
+
+    <div class="callout callout-yellow">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body"><strong>Requisito de execução:</strong> O app desktop requer Python 3.x instalado. Na primeira execução, <code>main.py</code> instala automaticamente as dependências (customtkinter, pandas, openpyxl, requests, reportlab).</div>
+    </div>
+
+    <div class="callout callout-blue">
+      <span class="callout-icon">🌐</span>
+      <div class="callout-body"><strong>Para o site:</strong> O <code>fetch()</code> de componentes requer protocolo HTTP. Use Live Server (VS Code) ou qualquer servidor local — abrir direto no navegador com <code>file://</code> não funciona.</div>
+    </div>
+  </div>
+
+  <!-- TECNOLOGIAS -->
+  <div id="tecnologias" class="section">
+    <div class="section-eyebrow">Infraestrutura</div>
+    <h2>Tecnologias Utilizadas</h2>
+    <p>O projeto usa zero dependências externas no frontend web. O app desktop usa apenas bibliotecas Python com instalação automática.</p>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tc-icon">🐍</div>
+        <div class="tc-title">Python 3.x</div>
+        <div class="tc-desc">Linguagem principal do app desktop. Mixins e classes para separação de responsabilidades.</div>
+        <span class="tc-file">main.py</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">🖼️</div>
+        <div class="tc-title">CustomTkinter</div>
+        <div class="tc-desc">UI moderna com tema dark nativo idêntico ao site. Tema fixo em modo escuro.</div>
+        <span class="tc-file">interface_utils.py</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">🗄️</div>
+        <div class="tc-title">SQLite</div>
+        <div class="tc-desc">Banco de dados local. Tabelas: pedidos e logs. Migração automática de colunas.</div>
+        <span class="tc-file">database.py</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">📊</div>
+        <div class="tc-title">Pandas + OpenPyXL</div>
+        <div class="tc-desc">Leitura de dados via SQL e exportação para .xlsx com nome datado.</div>
+        <span class="tc-file">logic_utils.py</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">📄</div>
+        <div class="tc-title">ReportLab</div>
+        <div class="tc-desc">Geração de Ordem de Produção em PDF com timestamp único para evitar corrupção.</div>
+        <span class="tc-file">logic_utils.py</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">🌍</div>
+        <div class="tc-title">ViaCEP API</div>
+        <div class="tc-desc">Preenchimento automático de rua e bairro ao inserir CEP no cadastro.</div>
+        <span class="tc-file">interface_utils.py</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">💻</div>
+        <div class="tc-title">HTML5 / CSS3 / JS</div>
+        <div class="tc-desc">Site público institucional. Zero bibliotecas externas de UI.</div>
+        <span class="tc-file">web/pages/</span>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">🤖</div>
+        <div class="tc-title">Chatbot IA Web</div>
+        <div class="tc-desc">Assistente com reconhecimento de voz (Web Speech API) integrado ao site.</div>
+        <span class="tc-file">web/assets/js/chatbot.js</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTRUTURA -->
+  <div id="estrutura" class="section">
+    <div class="section-eyebrow">Organização</div>
+    <h2>Estrutura de Pastas</h2>
+    <p>O projeto tem raiz única (<code>logistockProV2.4/</code>) com separação clara entre o app Python e o site web.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>logistockProV2.4/ — estrutura completa</span>
+      </div>
+      <div class="code-body"><pre>
+logistockProV2.4/
+├── <span class="cl">main.py</span>               <span class="cm"># Ponto de entrada — inicia o app, instala deps</span>
+├── <span class="cl">database.py</span>           <span class="cm"># init_db(), registrar_log() — SQLite</span>
+├── <span class="cl">logic_utils.py</span>        <span class="cm"># LogicMixin — exportar_excel(), gerar_pdf_simples()</span>
+├── <span class="cl">interface_utils.py</span>    <span class="cm"># InterfaceMixin — todas as telas e UI</span>
+├── <span class="cl">styles.py</span>             <span class="cm"># Tokens de design — cores, fontes, raios</span>
+├── producao.db           <span class="cm"># Gerado em runtime pelo init_db()</span>
+├── arquivos_exportados/  <span class="cm"># PDFs e Excel gerados pelo sistema</span>
+└── web/                  <span class="cm"># Site público</span>
+    ├── pages/
+    │   ├── <span class="st">inicio.html</span>       <span class="cm"># Home — hero, stats, carrossel</span>
+    │   ├── <span class="st">rastreio.html</span>     <span class="cm"># Rastreamento de pedido por número</span>
+    │   ├── <span class="st">sobre.html</span>        <span class="cm"># Sobre a empresa</span>
+    │   ├── <span class="st">junte-se.html</span>     <span class="cm"># Captação de parceiros</span>
+    │   ├── <span class="st">avaliacao.html</span>    <span class="cm"># Formulário de avaliação</span>
+    │   └── <span class="st">cadastro.html</span>     <span class="cm"># Cadastro de usuários</span>
+    ├── components/
+    │   ├── <span class="st">chatbot.html</span>      <span class="cm"># Chatbot IA com voice recognition</span>
+    │   └── <span class="st">vlibras.html</span>      <span class="cm"># Acessibilidade VLibras</span>
+    ├── assets/
+    │   ├── css/
+    │   │   ├── <span class="fn">shared.css</span>    <span class="cm"># CSS global — header, menu, tema, dark mode</span>
+    │   │   ├── <span class="fn">inicio.css</span>    <span class="cm"># Estilos da home</span>
+    │   │   ├── <span class="fn">rastreio.css</span>  <span class="cm"># Estilos de rastreamento</span>
+    │   │   └── ...           <span class="cm"># CSS por página</span>
+    │   ├── js/
+    │   │   ├── <span class="fn">chatbot.js</span>    <span class="cm"># Lógica do assistente + voz</span>
+    │   │   ├── <span class="fn">perfil.js</span>     <span class="cm"># Modal de perfil com tabs</span>
+    │   │   └── <span class="fn">vlibras.js</span>    <span class="cm"># Integração VLibras</span>
+    │   └── IMG/              <span class="cm"># Logos, imagens de carrossel</span>
+</pre></div>
+    </div>
+  </div>
+
+  <!-- AUTENTICAÇÃO -->
+  <div id="auth" class="section">
+    <div class="section-eyebrow">Segurança</div>
+    <h2>Autenticação</h2>
+    <p>O app desktop usa um sistema de login simples por perfil de acesso. Não há senha salva em banco — o usuário escolhe o perfil no dropdown e entra. O logout limpa a tela e retorna à tela de login.</p>
+
+    <table class="doc-table">
+      <thead><tr><th>Etapa</th><th>Função</th><th>O que acontece</th></tr></thead>
+      <tbody>
+        <tr><td>1. Login</td><td><code>tela_login()</code></td><td>Card centralizado com campos usuário, senha e seletor de perfil</td></tr>
+        <tr><td>2. Entrada</td><td><code>login_logic()</code></td><td>Valida se os campos estão preenchidos. Redireciona por perfil</td></tr>
+        <tr><td>3. Proteção</td><td><code>tela_principal()</code></td><td>Se perfil == Entregador, redireciona para <code>tela_entrega_v2()</code></td></tr>
+        <tr><td>4. Logout</td><td><code>trocar_conta()</code></td><td>Destroi todos os widgets e recria a tela de login</td></tr>
+        <tr><td>5. Encerrar</td><td><code>desligar_sistema()</code></td><td>Confirmação → <code>self.destroy()</code> + <code>sys.exit()</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-yellow">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><strong>Site web:</strong> O site usa localStorage para persistir o nome do perfil exibido no header e no menu lateral. O modal de perfil (<code>perfil.js</code>) permite editar nome, e-mail e foto de perfil salvos localmente.</div>
+    </div>
+  </div>
+
+  <!-- PERFIS -->
+  <div id="perfis" class="section">
+    <div class="section-eyebrow">Controle de Acesso</div>
+    <h2>Perfis de Acesso</h2>
+    <p>O sistema possui 4 perfis com permissões distintas. O perfil é selecionado na tela de login e determina quais ações ficam disponíveis.</p>
+
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="profile-avatar">🏭</div>
+        <h4>PCP</h4>
+        <p>Planejamento e controle da produção. Acesso total ao sistema.</p>
+        <div class="profile-perm">
+          <span class="perm-tag perm-full">Criar OP</span>
+          <span class="perm-tag perm-full">Avançar Status</span>
+          <span class="perm-tag perm-full">Excluir Registros</span>
+          <span class="perm-tag perm-read">Exportar</span>
+        </div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-avatar">⚙️</div>
+        <h4>Produção</h4>
+        <p>Chão de fábrica. Visualiza e acompanha ordens em execução.</p>
+        <div class="profile-perm">
+          <span class="perm-tag perm-read">Ver Kanban</span>
+          <span class="perm-tag perm-read">Ver Detalhes</span>
+          <span class="perm-tag perm-view">Gerar PDF</span>
+        </div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-avatar">📊</div>
+        <h4>Gestão</h4>
+        <p>Gerência. Pode ver tudo e excluir registros finalizados.</p>
+        <div class="profile-perm">
+          <span class="perm-tag perm-full">Excluir Finalizados</span>
+          <span class="perm-tag perm-read">Ver Kanban</span>
+          <span class="perm-tag perm-read">Exportar</span>
+        </div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-avatar">🚚</div>
+        <h4>Entregador</h4>
+        <p>Painel exclusivo de logística. Gerencia status de entrega.</p>
+        <div class="profile-perm">
+          <span class="perm-tag perm-full">Sair para Entrega</span>
+          <span class="perm-tag perm-full">Marcar Entregue</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANCO DE DADOS -->
+  <div id="banco" class="section">
+    <div class="section-eyebrow">Persistência</div>
+    <h2>Banco de Dados</h2>
+    <p>O SQLite é inicializado automaticamente em <code>producao.db</code> na raiz do projeto. Duas tabelas principais:</p>
+
+    <div class="schema-table">
+      <div class="schema-header">🗄️ pedidos</div>
+      <div class="schema-field"><span class="pk">PK</span><span class="sf-name">id</span><span class="sf-type">INTEGER</span><span class="sf-note">Autoincrement</span></div>
+      <div class="schema-field"><span class="sf-name">numero</span><span class="sf-type">TEXT</span><span class="sf-note">Número da Ordem de Produção (ex: 1042)</span></div>
+      <div class="schema-field"><span class="sf-name">produto</span><span class="sf-type">TEXT</span><span class="sf-note">Nome ou referência do produto</span></div>
+      <div class="schema-field"><span class="sf-name">quantidade</span><span class="sf-type">TEXT</span><span class="sf-note">Quantidade a produzir</span></div>
+      <div class="schema-field"><span class="sf-name">cliente</span><span class="sf-type">TEXT</span><span class="sf-note">Razão social ou nome do cliente</span></div>
+      <div class="schema-field"><span class="sf-name">rua / casa / bairro / cep</span><span class="sf-type">TEXT</span><span class="sf-note">Endereço de entrega (via ViaCEP)</span></div>
+      <div class="schema-field"><span class="sf-name">prioridade</span><span class="sf-type">TEXT</span><span class="sf-note">"Normal" ou "Urgente"</span></div>
+      <div class="schema-field"><span class="sf-name">status</span><span class="sf-type">TEXT</span><span class="sf-note">"A Fazer" → "Em Andamento" → "Qualidade" → "Finalizado" → "Em Rota" → "Entregue"</span></div>
+      <div class="schema-field"><span class="sf-name">descricao</span><span class="sf-type">TEXT</span><span class="sf-note">Observações da OP (adicionada via ALTER TABLE em migração)</span></div>
+    </div>
+
+    <div class="schema-table">
+      <div class="schema-header">📋 logs</div>
+      <div class="schema-field"><span class="pk">PK</span><span class="sf-name">id</span><span class="sf-type">INTEGER</span><span class="sf-note">Autoincrement</span></div>
+      <div class="schema-field"><span class="sf-name">data_hora</span><span class="sf-type">TEXT</span><span class="sf-note">dd/MM/yyyy HH:mm:ss</span></div>
+      <div class="schema-field"><span class="sf-name">acao</span><span class="sf-type">TEXT</span><span class="sf-note">Descrição da ação registrada (ex: "OP 42 avançou para Qualidade")</span></div>
+    </div>
+
+    <h3>Fluxo de Status</h3>
+    <p>O status das ordens segue um fluxo linear no Kanban para PCP/Produção. A partir do "Finalizado", o entregador pode mover para "Em Rota" e depois "Entregue".</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>Fluxo de status em logic_utils.py</span>
+      </div>
+      <div class="code-body"><pre><span class="cm"># Fluxo Kanban (PCP avança)</span>
+fluxo = [<span class="st">"A Fazer"</span>, <span class="st">"Em Andamento"</span>, <span class="st">"Qualidade"</span>, <span class="st">"Finalizado"</span>]
+
+<span class="cm"># Fluxo do entregador (após Finalizado)</span>
+<span class="st">"Finalizado"</span>  →  <span class="st">"Em Rota"</span>  →  <span class="st">"Entregue"</span>
+
+<span class="cm"># No Kanban, todos os status de entrega aparecem na coluna "Finalizado"</span>
+<span class="kw">if</span> status_db <span class="kw">in</span> [<span class="st">"Finalizado"</span>, <span class="st">"Em Rota"</span>, <span class="st">"Entregue"</span>]:
+    status_destino = <span class="st">"Finalizado"</span></pre></div>
+    </div>
+  </div>
+
+  <!-- KANBAN -->
+  <div id="kanban" class="section">
+    <div class="section-eyebrow">Interface Principal</div>
+    <h2>Painel Kanban</h2>
+    <p>A tela principal do app exibe as ordens de produção em colunas Kanban. Cada card mostra o número da OP, produto, quantidade e botões de ação disponíveis conforme o perfil do usuário.</p>
+
+    <div class="kanban-preview">
+      <div class="kanban-col">
+        <div class="kanban-col-header">A FAZER</div>
+        <div class="kanban-card">
+          <span class="kc-badge" style="background:rgba(231,76,60,0.2);color:#e74c3c">URGENTE</span>
+          <div class="kc-op">OP: 1042</div>
+          <div class="kc-info">Parafuso M8 | Qtd: 500</div>
+        </div>
+        <div class="kanban-card">
+          <div class="kc-op">OP: 1043</div>
+          <div class="kc-info">Porca Sextavada | Qtd: 200</div>
+        </div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">EM ANDAMENTO</div>
+        <div class="kanban-card">
+          <div class="kc-op">OP: 1040</div>
+          <div class="kc-info">Eixo Flangeado | Qtd: 10</div>
+        </div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">QUALIDADE</div>
+        <div class="kanban-card">
+          <div class="kc-op">OP: 1038</div>
+          <div class="kc-info">Rolamento 6205 | Qtd: 50</div>
+        </div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header">FINALIZADO</div>
+        <div class="kanban-card">
+          <span class="kc-badge" style="background:rgba(243,156,18,0.2);color:#f39c12">EM ROTA</span>
+          <div class="kc-op">OP: 1035</div>
+          <div class="kc-info">Correia Dentada | Qtd: 5</div>
+        </div>
+        <div class="kanban-card">
+          <span class="kc-badge" style="background:rgba(46,204,113,0.2);color:#2ecc71">ENTREGUE</span>
+          <div class="kc-op">OP: 1030</div>
+          <div class="kc-info">Bucha de Bronze | Qtd: 20</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Filtros e Pesquisa</h3>
+    <table class="doc-table">
+      <thead><tr><th>Filtro</th><th>Ordenação SQL gerada</th></tr></thead>
+      <tbody>
+        <tr><td><code>Padrão</code></td><td>Urgentes primeiro, depois por ID crescente</td></tr>
+        <tr><td><code>A a Z</code></td><td><code>cliente ASC</code></td></tr>
+        <tr><td><code>Z a A</code></td><td><code>cliente DESC</code></td></tr>
+        <tr><td><code>Alfabética</code></td><td><code>produto ASC</code></td></tr>
+        <tr><td><code>Data</code></td><td><code>id DESC</code> (último inserido primeiro)</td></tr>
+        <tr><td><code>OP</code></td><td><code>CAST(numero AS INTEGER) ASC</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+      <span class="callout-icon">🔍</span>
+      <div class="callout-body"><strong>Pesquisa em tempo real:</strong> O campo de busca usa evento <code>&lt;KeyRelease&gt;</code> e filtra por número da OP ou nome do cliente com <code>LIKE %termo%</code> no SQLite, sem botão de confirmar.</div>
+    </div>
+  </div>
+
+  <!-- CADASTRO DE ORDENS -->
+  <div id="cadastro" class="section">
+    <div class="section-eyebrow">Formulário</div>
+    <h2>Cadastro de Ordens de Produção</h2>
+    <p>Disponível apenas para o perfil <strong>PCP</strong>. Abre como janela <code>CTkToplevel</code> com scroll interno organizado em seções.</p>
+
+    <ul class="step-list">
+      <li>
+        <span class="step-num">1</span>
+        <div class="step-text"><strong>Dados da Ordem:</strong> Número da OP, quantidade (lado a lado) e nome do produto. Todos obrigatórios.</div>
+      </li>
+      <li>
+        <span class="step-num">2</span>
+        <div class="step-text"><strong>Dados do Cliente:</strong> Razão social ou nome completo. Campo obrigatório.</div>
+      </li>
+      <li>
+        <span class="step-num">3</span>
+        <div class="step-text"><strong>Endereço via ViaCEP:</strong> Ao sair do campo CEP (<code>FocusOut</code>), consulta <code>https://viacep.com.br/ws/{cep}/json/</code> e preenche rua e bairro automaticamente. Exibe feedback visual (buscando / encontrado / erro).</div>
+      </li>
+      <li>
+        <span class="step-num">4</span>
+        <div class="step-text"><strong>Prioridade:</strong> Botão segmentado <code>Normal</code> / <code>Urgente</code>. Urgente aplica badge vermelho no card do Kanban.</div>
+      </li>
+      <li>
+        <span class="step-num">5</span>
+        <div class="step-text"><strong>Observações:</strong> Campo textbox livre. Salvo na coluna <code>descricao</code> e exibido na janela de detalhes.</div>
+      </li>
+      <li>
+        <span class="step-num">6</span>
+        <div class="step-text"><strong>Salvar:</strong> Validação de campos obrigatórios antes do INSERT. Após salvo, chama <code>atualizar_interface()</code> e fecha a janela.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ENTREGADOR -->
+  <div id="entregador" class="section">
+    <div class="section-eyebrow">Logística</div>
+    <h2>Painel do Entregador</h2>
+    <p>Interface simplificada e exclusiva para o perfil <strong>Entregador</strong>. Sem menu lateral, sem Kanban — apenas as ordens prontas para entrega.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>Query do painel de entrega</span>
+      </div>
+      <div class="code-body"><pre><span class="cm"># Busca pedidos prontos ou em trânsito</span>
+cur.<span class="fn">execute</span>(<span class="st">"""
+  SELECT id, numero, produto, cliente, status, bairro
+  FROM pedidos
+  WHERE status IN ('Finalizado', 'Em Rota', 'Entregue')
+"""</span>)</pre></div>
+    </div>
+
+    <table class="doc-table">
+      <thead><tr><th>Status atual do pedido</th><th>Ação disponível</th><th>Novo status</th></tr></thead>
+      <tbody>
+        <tr><td><code>Finalizado</code></td><td>Botão "Sair para Entrega"</td><td><code>Em Rota</code></td></tr>
+        <tr><td><code>Em Rota</code></td><td>Botão "Marcar como Entregue"</td><td><code>Entregue</code></td></tr>
+        <tr><td><code>Entregue</code></td><td>Label "ENTREGUE" (somente leitura)</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <p>Cada mudança de status chama <code>registrar_log()</code> e atualiza a lista imediatamente. O log registra o perfil que realizou a ação.</p>
+  </div>
+
+  <!-- FERRAMENTAS -->
+  <div id="ferramentas" class="section">
+    <div class="section-eyebrow">Funcionalidades</div>
+    <h2>Ferramentas do Sistema</h2>
+    <p>Acessíveis pelo menu lateral (<code>☰</code>) na tela principal. Cada ferramenta abre em um container sobreposto que substitui o Kanban.</p>
+
+    <h3>Cálculo de Frete</h3>
+    <p>Calculadora simplificada com CEP de origem, CEP de destino e peso em kg. O cálculo usa uma fórmula base de <code>peso × R$ 12,50</code> — placeholder para integração futura com API de transportadoras.</p>
+
+    <h3>Rastreamento</h3>
+    <p>Consulta pelo número da OP no banco local. Traduz o status técnico para linguagem do cliente: <code>Finalizado</code> → "Pronto para Coleta", <code>Em Rota</code> → "Saiu para Entrega", <code>Entregue</code> → "Entregue ao Cliente". Cor muda conforme status.</p>
+
+    <h3>Tabela de Pedidos</h3>
+    <p>Exibição tabular com <code>ttk.Treeview</code> mostrando todas as ordens: ID, Nº OP, Produto, Qtd, Cliente, Bairro e Status. Botão de exportação para Excel integrado.</p>
+
+    <h3>Histórico de Logs / Auditoria</h3>
+    <p>Exibe todos os registros da tabela <code>logs</code> em ordem decrescente, com data/hora e descrição da ação. Interface tipo terminal (<code>Consolas 12px</code>).</p>
+  </div>
+
+  <!-- EXPORTAÇÕES -->
+  <div id="exports" class="section">
+    <div class="section-eyebrow">Relatórios</div>
+    <h2>Exportação de Dados</h2>
+
+    <h3>Excel (.xlsx)</h3>
+    <p>Exporta todos os pedidos da tabela <code>pedidos</code> para Excel. O arquivo é salvo em <code>arquivos_exportados/Relatorio_Pedidos.xlsx</code> e a pasta é aberta automaticamente (<code>os.startfile()</code>).</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>logic_utils.py — exportar_excel()</span>
+      </div>
+      <div class="code-body"><pre>conn = sqlite3.<span class="fn">connect</span>(<span class="st">"producao.db"</span>)
+df = pd.<span class="fn">read_sql_query</span>(<span class="st">"SELECT * FROM pedidos"</span>, conn)
+conn.<span class="fn">close</span>()
+
+data_str = datetime.<span class="fn">now</span>().<span class="fn">strftime</span>(<span class="st">'%d%m%Y_%H%M'</span>)
+nome_arquivo = <span class="fn">f</span><span class="st">"Relatorio_{data_str}.xlsx"</span>
+df.<span class="fn">to_excel</span>(caminho_final, index=<span class="kw">False</span>)</pre></div>
+    </div>
+
+    <h3>PDF de Ordem de Produção</h3>
+    <p>Gera um PDF individual para cada OP com ReportLab. O nome inclui um timestamp Unix para evitar conflito de arquivos (<code>OP_{numero}_{timestamp}.pdf</code>). Aguarda 0,5s antes de abrir para garantir que o sistema operacional processe o arquivo.</p>
+
+    <div class="callout callout-green">
+      <span class="callout-icon">📁</span>
+      <div class="callout-body"><strong>Pasta de exportação:</strong> Todos os arquivos gerados (<code>.xlsx</code> e <code>.pdf</code>) são salvos em <code>arquivos_exportados/</code>, criada automaticamente se não existir. Os arquivos incluídos no repositório são exemplos de saída.</div>
+    </div>
+  </div>
+
+  <!-- PÁGINAS WEB -->
+  <div id="web-pages" class="section">
+    <div class="section-eyebrow">Site Público</div>
+    <h2>Páginas Web</h2>
+    <p>Todas as páginas compartilham <code>shared.css</code> que define o header, menu lateral e tema dark. Cada página tem seu próprio CSS de conteúdo.</p>
+
+    <div class="pages-grid">
+      <div class="page-card">
+        <div class="page-icon">🏠</div>
+        <div>
+          <h4>Início</h4>
+          <div class="page-path">web/pages/inicio.html</div>
+          <p>Hero, stats (500+ empresas, 98% satisfação), carrossel automático com 5 imagens, cards de serviços e CTA do sistema.</p>
+        </div>
+      </div>
+      <div class="page-card">
+        <div class="page-icon">🚚</div>
+        <div>
+          <h4>Rastreamento</h4>
+          <div class="page-path">web/pages/rastreio.html</div>
+          <p>Formulário de consulta de pedido por número. Exibe status traduzido para o cliente final.</p>
+        </div>
+      </div>
+      <div class="page-card">
+        <div class="page-icon">🏢</div>
+        <div>
+          <h4>Sobre Nós</h4>
+          <div class="page-path">web/pages/sobre.html</div>
+          <p>Apresentação da empresa, missão, valores e história da LogiStock.</p>
+        </div>
+      </div>
+      <div class="page-card">
+        <div class="page-icon">🤝</div>
+        <div>
+          <h4>Junte-se a Nós</h4>
+          <div class="page-path">web/pages/junte-se.html</div>
+          <p>Formulário de cadastro para parceiros e empresários interessados na plataforma.</p>
+        </div>
+      </div>
+      <div class="page-card">
+        <div class="page-icon">⭐</div>
+        <div>
+          <h4>Avaliação</h4>
+          <div class="page-path">web/pages/avaliacao.html</div>
+          <p>Formulário de avaliação com sistema de estrelas para feedback de clientes.</p>
+        </div>
+      </div>
+      <div class="page-card">
+        <div class="page-icon">👤</div>
+        <div>
+          <h4>Cadastro</h4>
+          <div class="page-path">web/pages/cadastro.html</div>
+          <p>Criação de conta de usuário no sistema web com persistência em localStorage.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Modal de Perfil</h3>
+    <p>O <code>perfil.js</code> implementa um modal completo em todas as páginas com 3 abas: <strong>Perfil</strong> (editar nome, email, foto), <strong>Contas</strong> (múltiplas contas salvas localmente) e <strong>Configurações</strong> (trocar senha, logout). O avatar permite upload de foto via <code>FileReader</code>.</p>
+  </div>
+
+  <!-- CHATBOT -->
+  <div id="chatbot" class="section">
+    <div class="section-eyebrow">Assistente Virtual</div>
+    <h2>Chatbot IA</h2>
+    <p>Assistente integrado em todas as páginas do site. Fica minimizado como um botão flutuante e expande ao clicar.</p>
+
+    <div class="tech-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="tech-card">
+        <div class="tc-icon">🎤</div>
+        <div class="tc-title">Reconhecimento de Voz</div>
+        <div class="tc-desc">Web Speech API integrada. Botão de microfone com estado visual. Suporte a comandos de voz além de texto.</div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">🔊</div>
+        <div class="tc-title">Resposta por Voz</div>
+        <div class="tc-desc">Toggle para ativar/desativar leitura em voz alta das respostas (SpeechSynthesis API).</div>
+      </div>
+      <div class="tech-card">
+        <div class="tc-icon">⚡</div>
+        <div class="tc-title">Sugestões Rápidas</div>
+        <div class="tc-desc">Chips de sugestão pré-definidos: Planos, Funcionalidades, Contato e FAQ.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-yellow">
+      <span class="callout-icon">📄</span>
+      <div class="callout-body">O chatbot está implementado em <code>web/assets/js/chatbot.js</code> e sua estrutura HTML em <code>web/components/chatbot.html</code>. O CSS fica em <code>web/assets/css/chatbot.css</code>. Incluído em todas as páginas via tag <code>&lt;script defer&gt;</code>.</div>
+    </div>
+  </div>
+
+  <!-- TEMA -->
+  <div id="tema" class="section">
+    <div class="section-eyebrow">Aparência</div>
+    <h2>Sistema de Tema</h2>
+    <p>O site suporta alternância entre modo claro e escuro com persistência em <code>localStorage</code> e aplicação imediata para evitar flash.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>Aplicação antecipada de tema (head da página)</span>
+      </div>
+      <div class="code-body"><pre><span class="cm">// Executado ANTES do body renderizar — evita flash branco</span>
+(<span class="kw">function</span>() {
+  <span class="kw">if</span> (localStorage.<span class="fn">getItem</span>(<span class="st">'logistockTema'</span>) === <span class="st">'dark'</span>) {
+    document.documentElement.classList.<span class="fn">add</span>(<span class="st">'dark-mode-early'</span>);
+  }
+})();</pre></div>
+    </div>
+
+    <table class="doc-table">
+      <thead><tr><th>Variável CSS</th><th>Valor Light</th><th>Valor Dark</th></tr></thead>
+      <tbody>
+        <tr><td><code>--navy</code></td><td>#0A1628</td><td>#0d1117</td></tr>
+        <tr><td><code>--navy2</code></td><td>#162040</td><td>#161b22</td></tr>
+        <tr><td><code>--yellow</code></td><td>#F5C518</td><td>#F5C518 (mantido)</td></tr>
+        <tr><td><code>--gray</code></td><td>#F4F6FA</td><td>#0d1117</td></tr>
+        <tr><td>Texto geral</td><td>var(--navy)</td><td>#e6edf3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DESIGN SYSTEM -->
+  <div id="design" class="section">
+    <div class="section-eyebrow">Identidade Visual</div>
+    <h2>Design System</h2>
+    <p>Tokens definidos em <code>styles.py</code> (Python) e em CSS variables no <code>shared.css</code> (web). O app desktop usa o mesmo sistema de cores do site.</p>
+
+    <div class="tech-grid" style="grid-template-columns: repeat(5, 1fr);">
+      <div class="tech-card" style="text-align:center">
+        <div style="width:40px;height:40px;border-radius:8px;background:#F5C518;margin:0 auto 10px"></div>
+        <div class="tc-title">Yellow</div>
+        <div class="tc-desc">#F5C518<br>Primário, títulos, botões</div>
+      </div>
+      <div class="tech-card" style="text-align:center">
+        <div style="width:40px;height:40px;border-radius:8px;background:#0A1628;margin:0 auto 10px;border:1px solid #1E3A5F"></div>
+        <div class="tc-title">Navy</div>
+        <div class="tc-desc">#0A1628<br>Fundo principal</div>
+      </div>
+      <div class="tech-card" style="text-align:center">
+        <div style="width:40px;height:40px;border-radius:8px;background:#162040;margin:0 auto 10px;border:1px solid #1E3A5F"></div>
+        <div class="tc-title">Navy 2</div>
+        <div class="tc-desc">#162040<br>Cards, sidebar</div>
+      </div>
+      <div class="tech-card" style="text-align:center">
+        <div style="width:40px;height:40px;border-radius:8px;background:#2ecc71;margin:0 auto 10px"></div>
+        <div class="tc-title">Verde</div>
+        <div class="tc-desc">#2ecc71<br>Sucesso, entregue</div>
+      </div>
+      <div class="tech-card" style="text-align:center">
+        <div style="width:40px;height:40px;border-radius:8px;background:#e74c3c;margin:0 auto 10px"></div>
+        <div class="tc-title">Vermelho</div>
+        <div class="tc-desc">#e74c3c<br>Urgente, erro</div>
+      </div>
+    </div>
+
+    <h3>Tipografia</h3>
+    <table class="doc-table">
+      <thead><tr><th>Uso</th><th>Fonte</th><th>Peso</th><th>Onde</th></tr></thead>
+      <tbody>
+        <tr><td>Display / Títulos</td><td>Bebas Neue</td><td>Regular</td><td>Logo, seções, headers</td></tr>
+        <tr><td>Corpo / Interface</td><td>Nunito</td><td>400 / 600 / 700 / 800</td><td>Todo o texto geral</td></tr>
+        <tr><td>Código / Terminal</td><td>JetBrains Mono / Consolas</td><td>400 / 600</td><td>CEP, campos técnicos, logs</td></tr>
+        <tr><td>App Desktop</td><td>Trebuchet MS</td><td>Regular / Bold</td><td>Toda a UI Python</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PENDÊNCIAS -->
+  <div id="pendencias" class="section">
+    <div class="section-eyebrow">Roadmap</div>
+    <h2>Pendências</h2>
+    <p>Itens identificados para próximas versões do sistema:</p>
+
+    <ul class="pending-list">
+      <li class="pending-item">
+        <span class="pi-icon">🔐</span>
+        <span class="pi-text">Implementar autenticação real com senha hasheada (bcrypt) e validação por usuário no banco</span>
+        <span class="pi-tag pi-alta">Alta</span>
+      </li>
+      <li class="pending-item">
+        <span class="pi-icon">🚢</span>
+        <span class="pi-tag pi-alta">Alta</span>
+        <span class="pi-text">Integrar API real de transportadoras no módulo de Cálculo de Frete</span>
+      </li>
+      <li class="pending-item">
+        <span class="pi-icon">🌐</span>
+        <span class="pi-text">Conectar o rastreamento do site web ao banco SQLite via API REST local</span>
+        <span class="pi-tag pi-media">Média</span>
+      </li>
+      <li class="pending-item">
+        <span class="pi-icon">📧</span>
+        <span class="pi-text">Notificações automáticas por e-mail ao avançar status de pedidos críticos</span>
+        <span class="pi-tag pi-media">Média</span>
+      </li>
+      <li class="pending-item">
+        <span class="pi-icon">📱</span>
+        <span class="pi-text">Tornar o site responsivo para mobile (breakpoints menores e menu hamburguer aprimorado)</span>
+        <span class="pi-tag pi-media">Média</span>
+      </li>
+      <li class="pending-item">
+        <span class="pi-icon">🤖</span>
+        <span class="pi-text">Conectar o chatbot a uma API de LLM para respostas dinâmicas sobre o sistema</span>
+        <span class="pi-tag pi-media">Média</span>
+      </li>
+      <li class="pending-item">
+        <span class="pi-icon">📊</span>
+        <span class="pi-text">Dashboard analítico com gráficos de produtividade, tempo médio por fase e OEE</span>
+        <span class="pi-tag pi-baixa">Baixa</span>
+      </li>
+      <li class="pending-item">
+        <span class="pi-icon">🔄</span>
+        <span class="pi-text">Sincronização em tempo real entre múltiplas instâncias do app (websocket ou SQLite WAL)</span>
+        <span class="pi-tag pi-baixa">Baixa</span>
+      </li>
+    </ul>
+
+    <div class="callout callout-green" style="margin-top:32px">
+      <span class="callout-icon">🚀</span>
+      <div class="callout-body"><strong>Como contribuir:</strong> Crie uma branch com o padrão <code>feature/nome-da-feature</code> ou <code>fix/nome-do-bug</code>. Siga os tokens de design em <code>styles.py</code> para o app e <code>shared.css</code> para o site. Toda ação relevante deve chamar <code>registrar_log()</code>.</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="padding: 40px 48px; border-top: 1px solid var(--border); text-align:center;">
+    <p style="color:var(--gray);font-size:13px">
+      Documentação Técnica — <strong style="color:var(--yellow);font-family:'Bebas Neue',sans-serif;letter-spacing:2px">LogiStock Pro</strong> v2.4 · Sistema de Gestão Industrial · 2025
+    </p>
+  </div>
+
+</main>
+
+<script>
+const links = document.querySelectorAll('.sidebar-link');
+const sections = document.querySelectorAll('[id]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+document.querySelectorAll('.sidebar-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>

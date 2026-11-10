@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogiStock — Início</title>
+  <link rel="icon" href="../assets/IMG/logoCanto.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/shared.css">
+  <link rel="stylesheet" href="../assets/css/inicio.css">
+  <link rel="stylesheet" href="../assets/css/chatbot.css">
+  <script>
+    (function() {
+      if (localStorage.getItem('logistockTema') === 'dark') {
+        document.documentElement.classList.add('dark-mode-early');
+      }
+    })();
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/firebase-db.js"></script>
+</head>
+<body>
+
+<header class="cabecalho">
+  <i class="fa-solid fa-bars menu-btn" onclick="abrirMenu()"></i>
+  <div class="logo-area">
+    <img src="../assets/IMG/logoCanto.png" alt="LogiStock">
+    <div class="titulo">
+      <h1>LogiStock</h1>
+      <h3>Indústria Logística</h3>
+    </div>
+  </div>
+  <nav>
+    <a href="#" class="links" onclick="openProfileModal(); return false;">
+      <i class="fa-solid fa-user"></i>
+      <span class="nome-perfil-header">Meu Perfil</span>
+    </a>
+  </nav>
+</header>
+
+<div id="menuLateral" class="menu-lateral">
+  <div class="menu-header">
+    <img src="../assets/IMG/logoCanto.png" alt="Logo">
+    <div><h2>LogiStock</h2><span>Indústria Logística</span></div>
+    <i class="fa-solid fa-xmark fechar" onclick="fecharMenu()"></i>
+  </div>
+  <nav class="menu-links">
+    <a href="../pages/inicio.html"><i class="fa-solid fa-house"></i><span>Início</span></a>
+    <a href="../pages/rastreio.html"><i class="fa-solid fa-truck"></i><span>Rastrear Pedido</span></a>
+    <a href="../pages/sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre Nós</span></a>
+    <a href="../pages/junte-se.html"><i class="fa-solid fa-handshake"></i><span>Junte-se a nós</span></a>
+    <a href="../pages/avaliacao.html"><i class="fa-solid fa-star"></i><span>Avalie-nos</span></a>
+    <a href="https://jvap-bit.github.io/sistema_ERP/"><i class="fa-solid fa-star"></i><span>Sistema ERP</span></a>
+    <a href="#" onclick="fecharMenu(); openProfileModal(); return false;"><i class="fa-solid fa-user"></i><span class="nome-perfil-menu">Meu Perfil</span></a>
+    <div class="menu-divisor"></div>
+    <button class="btn-tema" id="btnTema" onclick="toggleTema()">
+      <i class="fa-solid fa-moon"></i>
+      <span>Tema Dark</span>
+      <div class="tema-toggle"></div>
+    </button>
+  </nav>
+</div>
+
+<div id="overlay" onclick="fecharMenu()"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Plataforma Logística #1</div>
+    <h2>Gestão <span>Inteligente</span><br>de Estoque</h2>
+    <p>Automatize sua cadeia logística com tecnologia de ponta. Rastreamento em tempo real, controle total e eficiência máxima para sua empresa.</p>
+    <div class="hero-btns">
+      <a href="../pages/rastreio.html" class="btn-primario"><i class="fa-solid fa-truck"></i> Rastrear Pedido</a>
+      <a href="../pages/junte-se.html" class="btn-outline"><i class="fa-solid fa-handshake"></i> Seja Parceiro</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num">+500</span><span class="stat-label">Empresas Atendidas</span></div>
+  <div class="stat-item"><span class="stat-num">98%</span><span class="stat-label">Satisfação dos Clientes</span></div>
+  <div class="stat-item"><span class="stat-num">24h</span><span class="stat-label">Suporte Dedicado</span></div>
+  <div class="stat-item"><span class="stat-num">+10k</span><span class="stat-label">Entregas/Mês</span></div>
+</div>
+
+<!-- CARROSSEL -->
+<div class="carrossel-wrap">
+  <div class="carrossel">
+    <input type="radio" name="slide" id="s1" checked>
+    <input type="radio" name="slide" id="s2">
+    <input type="radio" name="slide" id="s3">
+    <input type="radio" name="slide" id="s4">
+    <input type="radio" name="slide" id="s5">
+    <div class="slides">
+      <div class="slide"><img src="../assets/IMG/logo_carrosselImg1.png" alt="Slide 1"></div>
+      <div class="slide"><img src="../assets/IMG/img2carrossel.png" alt="Slide 2"></div>
+      <div class="slide"><img src="../assets/IMG/img3carrossel.png" alt="Slide 3"></div>
+      <div class="slide"><img src="../assets/IMG/img4carrossel.png" alt="Slide 4"></div>
+      <div class="slide"><img src="../assets/IMG/Design sem nome.png" alt="Slide 5"></div>
+    </div>
+    <div class="navegacao">
+      <label for="s1"></label>
+      <label for="s2"></label>
+      <label for="s3"></label>
+      <label for="s4"></label>
+      <label for="s5"></label>
+    </div>
+  </div>
+</div>
+
+<!-- CARDS -->
+<div class="secao-cards">
+  <h2>Nossos Serviços</h2>
+  <div class="grid-cards">
+    <a href="../pages/rastreio.html" class="card-link">
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-truck"></i></div>
+        <h3>Rastreie seu Pedido</h3>
+        <p>Acompanhe sua encomenda em tempo real de forma rápida e segura, com histórico completo de movimentações.</p>
+        <span class="card-arrow">Rastrear agora <i class="fa-solid fa-arrow-right"></i></span>
+      </div>
+    </a>
+    <a href="../pages/sobre.html" class="card-link">
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-building"></i></div>
+        <h3>Sobre Nós</h3>
+        <p>Conheça nossa história, missão e os valores que nos tornam líderes em gestão logística no Brasil.</p>
+        <span class="card-arrow">Saiba mais <i class="fa-solid fa-arrow-right"></i></span>
+      </div>
+    </a>
+    <a href="../pages/junte-se.html" class="card-link">
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-handshake"></i></div>
+        <h3>Junte-se a nós!</h3>
+        <p>Empresário, eleve a qualidade do seu serviço com nossa infraestrutura logística e contratos flexíveis.</p>
+        <span class="card-arrow">Seja parceiro <i class="fa-solid fa-arrow-right"></i></span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- CTA SISTEMA -->
+<div class="cta-sistema">
+  <div>
+    <h3>Acesse o Sistema de Gestão</h3>
+    <p>Controle total de estoque e produção via nossa plataforma Python integrada.</p>
+  </div>
+  <a class="btn-primario" onclick="abrirSistema()">
+    <i class="fa-solid fa-terminal"></i> Abrir Sistema
+  </a>
+</div>
+
+<footer>
+  <p>© 2025 <span>LogiStock</span> Indústria Logística — Todos os direitos reservados.</p>
+</footer>
+
+<!-- MODAL SISTEMA -->
+<div id="modalSistema" style="display:none;position:fixed;inset:0;background:rgba(10,22,40,0.85);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);">
+  <div style="background:var(--white);border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;box-shadow:0 24px 80px rgba(10,22,40,0.4);">
+    <div style="width:70px;height:70px;background:rgba(245,197,24,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;color:var(--yellow);">
+      <i class="fa-solid fa-terminal"></i>
+    </div>
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--navy);margin-bottom:12px;">Sistema Python</h3>
+    <p style="color:var(--gray2);font-size:15px;line-height:1.6;margin-bottom:28px;">
+      O sistema de gestão LogiStock é uma aplicação desktop em Python (Tkinter). Para acessá-lo, execute o arquivo <strong>main.py</strong> na pasta do projeto.
+    </p>
+    <div style="background:var(--gray);border-radius:10px;padding:16px;font-family:monospace;font-size:14px;color:var(--navy);text-align:left;margin-bottom:28px;">
+      <span style="color:var(--gray2)">$</span> cd logistockPro/<br>
+      <span style="color:var(--gray2)">$</span> python main.py
+    </div>
+    <button onclick="fecharModal()" class="btn-primario" style="width:100%;justify-content:center;">
+      <i class="fa-solid fa-xmark"></i> Fechar
+    </button>
+  </div>
+</div>
+
+<script defer src="../assets/js/vlibras.js"></script>
+
+<script>
+function abrirMenu() {
+  document.getElementById("menuLateral").classList.add("ativo");
+  document.getElementById("overlay").classList.add("ativo");
+}
+function fecharMenu() {
+  document.getElementById("menuLateral").classList.remove("ativo");
+  document.getElementById("overlay").classList.remove("ativo");
+}
+async function abrirSistema() {
+  try {
+    const res = await fetch('http://localhost:5000/iniciar-sistema');
+    const data = await res.json();
+    alert(data.mensagem);
+  } catch {
+    alert('Servidor Python não está rodando. Execute server.py primeiro.');
+  }
+}
+function fecharModal() {
+  document.getElementById("modalSistema").style.display = "none";
+}
+
+// Autoplay carrossel
+let slide = 1;
+setInterval(() => {
+  slide = slide >= 5 ? 1 : slide + 1;
+  document.getElementById("s" + slide).checked = true;
+}, 4000);
+
+
+// ======= TEMA DARK =======
+function aplicarTema(dark) {
+  if (dark) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+  const btn = document.getElementById('btnTema');
+  if (btn) {
+    if (dark) btn.classList.add('dark-ativo');
+    else btn.classList.remove('dark-ativo');
+    // Update icon
+    const icon = btn.querySelector('i');
+    if (icon) {
+      icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    }
+    // Update label
+    const span = btn.querySelector('span');
+    if (span) span.textContent = dark ? 'Tema Claro' : 'Tema Dark';
+  }
+}
+
+function toggleTema() {
+  const isDark = !document.body.classList.contains('dark-mode');
+  localStorage.setItem('logistockTema', isDark ? 'dark' : 'light');
+  if (window.LogiDB) LogiDB.salvarTema(isDark ? 'dark' : 'light');
+  aplicarTema(isDark);
+}
+
+// Apply saved theme immediately
+(function() {
+  const tema = localStorage.getItem('logistockTema');
+  document.documentElement.classList.remove('dark-mode-early');
+  if (tema === 'dark') aplicarTema(true);
+})();
+// ========================
+
+
+// ======= NOME DO PERFIL =======
+(function() {
+  const nome = localStorage.getItem('usuarioLogado');
+  if (nome) {
+    document.querySelectorAll('.nome-perfil-header').forEach(el => el.textContent = nome);
+    document.querySelectorAll('.nome-perfil-menu').forEach(el => el.textContent = nome);
+  }
+})();
+// ==============================
+</script>
+
+<!-- ── CHATBOT LOGISTOCK ── -->
+<div class="chatbot-container minimized" id="chatbot-container" onclick="if(this.classList.contains('minimized')) toggleChatBot()">
+
+  <div class="chatbot-header" id="chatbot-header">
+
+    <!-- Ícone mini — idêntico ao app (rect + "IA") -->
+    <svg class="chatbot-icon-mini" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="white" stroke-width="2">
+      <rect x="4" y="4" width="24" height="24" rx="4" ry="4"/>
+      <text x="16" y="21" font-size="12" font-weight="bold" text-anchor="middle" fill="white" stroke="none" font-family="Arial">IA</text>
+    </svg>
+
+    <!-- Título (estado aberto) -->
+    <div class="chatbot-title chatbot-title-text">
+      <i class="fa-solid fa-robot" style="color:var(--cb-cyan)"></i>
+      Assistente LogiStock
+      <span class="voice-status" id="voice-status"></span>
+    </div>
+    <div class="chatbot-header-actions">
+      <button onclick="event.stopPropagation(); toggleChatBot()" title="Minimizar">
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensagens -->
+  <div class="chatbot-messages" id="chatbot-messages">
+    <div class="message-group assistant-msg">
+      <div class="message-bubble">
+        <p>Olá! Sou o assistente da <strong>LogiStock</strong>. Posso ajudar com:</p>
+        <ul style="margin-top:8px;font-size:13px;line-height:1.8">
+          <li>Planos e preços</li>
+          <li>Funcionalidades do sistema</li>
+          <li>Integrações disponíveis</li>
+          <li>Comandos por <strong>voz</strong></li>
+        </ul>
+        <p style="margin-top:8px;font-size:12px;color:#64748b">Diga "ajuda" para ver todos os comandos.</p>
+      </div>
+      <span class="message-time">agora</span>
+    </div>
+  </div>
+
+  <!-- Sugestões rápidas -->
+  <div class="chatbot-suggestions">
+    <button class="suggestion-chip" onclick="useSuggestion('Planos e preços')">Planos</button>
+    <button class="suggestion-chip" onclick="useSuggestion('Funcionalidades')">Funcionalidades</button>
+    <button class="suggestion-chip" onclick="useSuggestion('Contato')">Contato</button>
+    <button class="suggestion-chip" onclick="useSuggestion('FAQ')">FAQ</button>
+  </div>
+
+  <!-- Input com microfone -->
+  <div class="chatbot-input-area">
+    <button class="voice-btn" id="voice-btn" onclick="toggleVoiceRecognition()" title="Clique para falar">
+      <i class="fa-solid fa-microphone" id="mic-icon"></i>
+    </button>
+    <input
+      type="text"
+      id="chatbot-input"
+      class="chatbot-input"
+      placeholder="Digite ou use o microfone..."
+      onkeypress="if(event.key==='Enter') sendChatMessage()"
+    >
+    <button class="chatbot-send-btn" onclick="sendChatMessage()" id="chatbot-send">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </div>
+
+  <!-- Footer com toggle de voz -->
+  <div class="chatbot-footer">
+    <label class="voice-toggle">
+      <input type="checkbox" id="voice-response-toggle" checked>
+      <span>Resposta por voz</span>
+    </label>
+    <small>LogiStock IA</small>
+  </div>
+
+</div>
+
+
+<script defer src="../assets/js/chatbot.js"></script>
+<script defer src="../assets/js/perfil.js"></script>
+
+<!-- MODAL DE PERFIL -->
+<div id="overlay-profile" onclick="pHandleOverlay(event)">
+  <div id="modal-profile">
+
+    <div class="pmodal-head">
+      <h2><i class="fa-solid fa-user" style="color:var(--yellow);margin-right:8px;font-size:14px"></i>Meu Perfil</h2>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="pbtn pbtn-danger" onclick="pConfirmLogout()" title="Sair da conta">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+        </button>
+        <button class="pbtn-close" onclick="closeProfileModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <div class="ptabs">
+      <button class="ptab-btn active" onclick="pSwitchTab('perfil',this)">
+        <i class="fa-solid fa-user" style="font-size:10px;margin-right:5px"></i>Perfil
+      </button>
+      <button class="ptab-btn" onclick="pSwitchTab('contas',this)">
+        <i class="fa-solid fa-users" style="font-size:10px;margin-right:5px"></i>Contas
+      </button>
+      <button class="ptab-btn" onclick="pSwitchTab('config',this)">
+        <i class="fa-solid fa-gear" style="font-size:10px;margin-right:5px"></i>Configurações
+      </button>
+    </div>
+
+    <div class="ptab-panel active" id="ptab-perfil">
+      <div class="pprofile-header">
+        <div>
+          <div class="pav-wrap" onclick="pTriggerPhoto()">
+            <div class="pav-lg" id="pprofile-av">LS</div>
+            <div class="pav-overlay"><i class="fa-solid fa-camera"></i></div>
+          </div>
+          <div class="pav-hint">Clique para alterar</div>
+          <input type="file" id="pphoto-input" accept="image/*" style="display:none" onchange="pHandlePhoto(event)">
+        </div>
+        <div>
+          <div style="font-size:17px;font-weight:700;color:var(--navy)" id="pheader-name">LogiStock User</div>
+          <div style="font-size:13px;color:var(--gray2);margin-top:2px" id="pheader-role">Usuário LogiStock</div>
+          <div style="font-size:12px;color:var(--gray2);margin-top:3px" id="pheader-email">usuario@logistock.com</div>
+        </div>
+      </div>
+      <div class="pfield-row">
+        <div class="pform-group"><label>Nome completo</label><input type="text" id="pedit-name" placeholder="Seu nome"></div>
+        <div class="pform-group"><label>Matrícula</label><input type="text" id="pedit-matricula" readonly></div>
+      </div>
+      <div class="pform-group"><label>E-mail</label><input type="email" id="pedit-email" placeholder="seu@email.com"></div>
+      <div class="pfield-row">
+        <div class="pform-group"><label>Cargo</label><input type="text" id="pedit-cargo" readonly></div>
+        <div class="pform-group"><label>Setor</label><input type="text" id="pedit-setor" readonly></div>
+      </div>
+      <div class="pmodal-foot">
+        <button class="pbtn pbtn-secondary" onclick="pCancelEdit()"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+        <button class="pbtn pbtn-primary" onclick="pSaveProfile()"><i class="fa-solid fa-floppy-disk"></i> Salvar alterações</button>
+      </div>
+    </div>
+
+    <div class="ptab-panel" id="ptab-contas">
+      <div class="psection-hd">Conta ativa</div>
+      <div class="paccount-list" id="paccounts-list"></div>
+      <div class="pdivider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:13px;color:var(--gray2)">Adicionar outra conta</span>
+        <button class="pbtn pbtn-secondary" onclick="pGoToLogin()"><i class="fa-solid fa-plus"></i> Entrar em outra conta</button>
+      </div>
+      <div style="background:#f4f6fa;border:1.5px solid #e8ecf3;border-radius:11px;padding:14px;margin-top:6px">
+        <div style="font-size:12px;color:var(--gray2);line-height:1.6">
+          <i class="fa-solid fa-circle-info" style="color:#2563eb;margin-right:6px"></i>
+          Os dados das contas ficam salvos no Firebase. Neste dispositivo ficam apenas os atalhos para alternar entre elas.
+        </div>
+      </div>
+    </div>
+
+    <div class="ptab-panel" id="ptab-config">
+      <div id="pconfig-main">
+        <div class="psection-hd">Conta</div>
+        <div class="psettings-list">
+          <div class="psettings-item" onclick="pOpenChangePw()">
+            <div class="psi-icon" style="background:rgba(124,58,237,.1);color:#7c3aed"><i class="fa-solid fa-lock"></i></div>
+            <div class="psi-text">
+              <div class="psi-label">Trocar senha</div>
+              <div class="psi-desc">Altere sua senha de acesso</div>
+            </div>
+            <div class="psi-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="psettings-item" onclick="pSwitchTab('contas',document.querySelectorAll('.ptab-btn')[1])">
+            <div class="psi-icon" style="background:rgba(37,99,235,.08);color:#2563eb"><i class="fa-solid fa-repeat"></i></div>
+            <div class="psi-text">
+              <div class="psi-label">Mudar de conta</div>
+              <div class="psi-desc">Alterne para outra conta salva</div>
+            </div>
+            <div class="psi-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+        </div>
+        <div class="psection-hd">Sessão</div>
+        <div class="psettings-list">
+          <div class="psettings-item pdanger" onclick="pConfirmLogout()">
+            <div class="psi-icon" style="background:rgba(220,38,38,.08);color:#dc2626"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+            <div class="psi-text">
+              <div class="psi-label">Sair da conta</div>
+              <div class="psi-desc">Sua conta ficará salva para retornar depois</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="pconfig-password" class="psubpanel">
+        <button class="pback-btn" onclick="pCloseChangePw()"><i class="fa-solid fa-arrow-left"></i> Voltar às configurações</button>
+        <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px">
+          <i class="fa-solid fa-lock" style="color:#7c3aed;margin-right:8px"></i>Trocar senha
+        </div>
+        <div class="pform-group"><label>Senha atual</label><input type="password" id="ppw-current" placeholder="••••••••"></div>
+        <div class="pform-group">
+          <label>Nova senha</label>
+          <input type="password" id="ppw-new" placeholder="••••••••" oninput="pCheckPwStrength(this.value)">
+          <div class="ppw-bar-track"><div class="ppw-bar" id="ppw-bar"></div></div>
+          <div class="ppw-hint" id="ppw-hint">Digite uma nova senha</div>
+        </div>
+        <div class="pform-group"><label>Confirmar nova senha</label><input type="password" id="ppw-confirm" placeholder="••••••••"></div>
+        <div class="pmodal-foot">
+          <button class="pbtn pbtn-secondary" onclick="pCloseChangePw()">Cancelar</button>
+          <button class="pbtn pbtn-primary" onclick="pSavePw()"><i class="fa-solid fa-floppy-disk"></i> Salvar senha</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- FIM MODAL PERFIL -->
+
+</body>
+</html>

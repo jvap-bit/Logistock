@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ERP Industrial Acessível</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#f1f5f9;
+      height:100vh;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+
+      text-align:center;
+      padding:20px;
+    }
+
+    h1{
+      font-size:48px;
+      color:#1e293b;
+      margin-bottom:15px;
+    }
+
+    p{
+      font-size:18px;
+      color:#475569;
+      max-width:700px;
+      line-height:1.6;
+      margin-bottom:40px;
+    }
+
+    /* CARDS */
+
+    .cards{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    .card{
+      width:220px;
+      background:white;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+    }
+
+    .card h2{
+      margin-bottom:10px;
+      color:#2563eb;
+      font-size:22px;
+    }
+
+    .card p{
+      font-size:14px;
+      margin:0;
+      color:#555;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>ERP Industrial</h1>
+
+  <p>
+    Sistema inteligente para controle de estoque,
+    manutenção industrial, produção e relatórios.
+  </p>
+
+  <!-- CARDS -->
+
+  <div class="cards">
+
+    <div class="card">
+      <h2>📦 Estoque</h2>
+
+      <p>
+        Controle de entrada, saída
+        e estoque mínimo.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>🔧 Manutenção</h2>
+
+      <p>
+        Gestão preventiva
+        e corretiva.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>🏭 Produção</h2>
+
+      <p>
+        Monitoramento das
+        linhas industriais.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- VLibras -->
+
+  <div vw class="enabled">
+
+    <div vw-access-button class="active"></div>
+
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+
+  </div>
+
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+  <script>
+
+    new window.VLibras.Widget('https://vlibras.gov.br/app')
+
+  </script>
+
+</body>
+</html>
